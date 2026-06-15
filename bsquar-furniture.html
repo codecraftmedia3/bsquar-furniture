@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="BSQUAR Carpentry & Furniture – Handcrafted custom furniture and carpentry services. Modern, trustworthy, and built to last."/>
+<meta name="keywords" content="carpentry, furniture, custom woodwork, handcrafted furniture, BSQUAR"/>
+<title>BSQUAR – Carpentry & Furniture</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Inter:wght@300;400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<style>
+  :root {
+    --wood-dark:  #3B2008;
+    --wood-mid:   #6B3A1F;
+    --wood-warm:  #8B4A2A;
+    --wood-grain: #A0522D;
+    --wood-light: #C4894A;
+    --cream:      #F5EFE6;
+    --cream-deep: #EDE0CF;
+    --charcoal:   #1C1410;
+    --text-body:  #3A2A1A;
+    --gold:       #C9973B;
+    --gold-light: #E8B96A;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;scroll-behavior:smooth;}
+  body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text-body);overflow-x:hidden;}
+
+  /* WOOD NAVBAR */
+  #navbar{
+    position:fixed;top:0;left:0;right:0;z-index:1000;
+    background:
+      repeating-linear-gradient(92deg,rgba(255,255,255,0.03) 0px,rgba(255,255,255,0.03) 1px,transparent 1px,transparent 18px),
+      repeating-linear-gradient(178deg,rgba(0,0,0,0.07) 0px,rgba(0,0,0,0.07) 1px,transparent 1px,transparent 30px),
+      linear-gradient(180deg,#5C2E0A 0%,#3B2008 40%,#2C1705 100%);
+    border-bottom:3px solid var(--gold);
+    box-shadow:0 4px 24px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.08);
+    transition:all 0.3s ease;
+  }
+  #navbar.scrolled{
+    background:repeating-linear-gradient(92deg,rgba(255,255,255,0.03) 0px,rgba(255,255,255,0.03) 1px,transparent 1px,transparent 18px),
+      linear-gradient(180deg,#3B2008 0%,#2C1705 100%);
+    box-shadow:0 6px 32px rgba(0,0,0,0.6);
+  }
+  .nav-logo{font-family:'Playfair Display',serif;font-weight:900;font-size:1.7rem;color:var(--gold-light);letter-spacing:0.05em;text-shadow:0 2px 8px rgba(0,0,0,0.5);}
+  .nav-logo span{color:#fff;font-weight:400;}
+  .nav-link{font-family:'Inter',sans-serif;font-size:0.85rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.82);text-decoration:none;padding:6px 0;position:relative;transition:color 0.2s;}
+  .nav-link::after{content:'';position:absolute;left:0;bottom:0;width:0;height:2px;background:var(--gold);transition:width 0.3s ease;}
+  .nav-link:hover{color:var(--gold-light);}
+  .nav-link:hover::after{width:100%;}
+  .nav-cta{background:linear-gradient(135deg,var(--gold) 0%,var(--gold-light) 100%);color:var(--charcoal) !important;font-weight:700 !important;padding:10px 22px !important;border-radius:4px;letter-spacing:0.08em !important;box-shadow:0 2px 12px rgba(201,151,59,0.4);transition:all 0.3s ease !important;}
+  .nav-cta:hover{box-shadow:0 4px 20px rgba(201,151,59,0.6);transform:translateY(-1px);}
+  .nav-cta::after{display:none !important;}
+
+  /* HERO */
+  #home{min-height:100vh;background:linear-gradient(135deg,rgba(28,20,16,0.88) 0%,rgba(59,32,8,0.75) 60%,rgba(44,23,5,0.85) 100%),url('https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=1600&q=80') center/cover no-repeat;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+  #home::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,0.015) 0px,rgba(255,255,255,0.015) 1px,transparent 1px,transparent 60px);}
+  .hero-eyebrow{font-family:'Inter',sans-serif;font-size:0.78rem;font-weight:600;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:12px;}
+  .hero-eyebrow::before,.hero-eyebrow::after{content:'';display:block;height:1px;width:40px;background:var(--gold);opacity:0.6;}
+  .hero-title{font-family:'Playfair Display',serif;font-size:clamp(3rem,7vw,6rem);font-weight:900;color:#fff;line-height:1.05;text-shadow:0 4px 24px rgba(0,0,0,0.4);}
+  .hero-title em{color:var(--gold-light);font-style:normal;}
+  .hero-sub{font-size:1.1rem;font-weight:300;color:rgba(255,255,255,0.72);max-width:500px;line-height:1.7;}
+  .btn-primary{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--gold) 0%,#B8842E 100%);color:var(--charcoal);font-weight:700;font-size:0.9rem;letter-spacing:0.1em;text-transform:uppercase;padding:16px 36px;border-radius:4px;text-decoration:none;box-shadow:0 4px 20px rgba(201,151,59,0.45);transition:all 0.3s;}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(201,151,59,0.55);}
+  .btn-ghost{display:inline-flex;align-items:center;gap:10px;border:1.5px solid rgba(255,255,255,0.4);color:#fff;font-weight:500;font-size:0.9rem;letter-spacing:0.08em;padding:16px 36px;border-radius:4px;text-decoration:none;transition:all 0.3s;}
+  .btn-ghost:hover{border-color:var(--gold);color:var(--gold-light);}
+  .hero-stat-num{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:700;color:var(--gold-light);}
+  .hero-stat-label{font-size:0.78rem;font-weight:400;color:rgba(255,255,255,0.55);letter-spacing:0.1em;text-transform:uppercase;margin-top:2px;}
+
+  /* SECTIONS */
+  #about{background:var(--cream-deep);}
+  .section-eyebrow{font-family:'Inter',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:10px;}
+  .section-eyebrow::after{content:'';display:block;height:1px;width:48px;background:var(--gold);opacity:0.5;}
+  .section-title{font-family:'Playfair Display',serif;font-weight:800;line-height:1.15;color:var(--charcoal);}
+  .wood-accent-line{width:60px;height:4px;background:linear-gradient(90deg,var(--wood-grain),var(--gold));border-radius:2px;}
+
+  /* ABOUT IMAGE */
+  .about-img-frame{position:relative;}
+  .about-img-frame::before{content:'';position:absolute;top:-14px;left:-14px;right:14px;bottom:14px;border:2px solid var(--gold);border-radius:4px;z-index:0;}
+  .about-img-frame img{position:relative;z-index:1;border-radius:4px;}
+  .badge-years{position:absolute;bottom:-16px;right:-16px;z-index:2;width:110px;height:110px;background:linear-gradient(135deg,var(--wood-dark),var(--wood-mid));border:3px solid var(--gold);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(0,0,0,0.3);}
+  .badge-years strong{font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:var(--gold-light);line-height:1;}
+  .badge-years span{font-size:0.65rem;color:rgba(255,255,255,0.7);letter-spacing:0.1em;text-align:center;}
+
+  /* SERVICES */
+  #services{background:var(--cream);}
+  .service-card{background:#fff;border:1px solid rgba(139,74,42,0.12);border-radius:8px;padding:36px 28px;transition:all 0.35s ease;position:relative;overflow:hidden;}
+  .service-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--wood-grain),var(--gold));transform:scaleX(0);transform-origin:left;transition:transform 0.35s ease;}
+  .service-card:hover{transform:translateY(-6px);box-shadow:0 16px 48px rgba(59,32,8,0.12);}
+  .service-card:hover::before{transform:scaleX(1);}
+  .service-icon{width:56px;height:56px;background:linear-gradient(135deg,var(--wood-dark) 0%,var(--wood-warm) 100%);border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--gold-light);font-size:1.4rem;margin-bottom:20px;box-shadow:0 4px 12px rgba(59,32,8,0.2);}
+
+  /* PORTFOLIO */
+  #portfolio{background:var(--charcoal);}
+  #portfolio .section-title{color:var(--cream);}
+  #portfolio .section-eyebrow{color:var(--gold-light);}
+  #portfolio .section-eyebrow::after{background:var(--gold-light);}
+  .portfolio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;}
+  @media(max-width:768px){.portfolio-grid{grid-template-columns:1fr 1fr;}}
+  @media(max-width:480px){.portfolio-grid{grid-template-columns:1fr;}}
+  .portfolio-item{position:relative;overflow:hidden;aspect-ratio:4/3;cursor:pointer;}
+  .portfolio-item.tall{grid-row:span 2;aspect-ratio:auto;}
+  .portfolio-item.wide{grid-column:span 2;}
+  .portfolio-item img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s ease;}
+  .portfolio-item:hover img{transform:scale(1.08);}
+  .portfolio-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(28,20,16,0.92) 0%,rgba(28,20,16,0.1) 60%,transparent 100%);opacity:0;transition:opacity 0.3s;display:flex;flex-direction:column;justify-content:flex-end;padding:24px;}
+  .portfolio-item:hover .portfolio-overlay{opacity:1;}
+  .portfolio-overlay h4{font-family:'Playfair Display',serif;color:#fff;font-size:1.1rem;font-weight:700;}
+  .portfolio-overlay p{color:var(--gold-light);font-size:0.8rem;margin-top:4px;}
+  .filter-btn{font-size:0.8rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;padding:8px 20px;border-radius:40px;border:1.5px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.6);background:transparent;cursor:pointer;transition:all 0.25s;}
+  .filter-btn.active,.filter-btn:hover{background:var(--gold);border-color:var(--gold);color:var(--charcoal);}
+
+  /* TESTIMONIALS */
+  #testimonials{background:var(--cream-deep);}
+  .testimonial-card{background:#fff;border-radius:12px;padding:36px;box-shadow:0 4px 24px rgba(59,32,8,0.07);border:1px solid rgba(139,74,42,0.1);position:relative;}
+  .testimonial-card::before{content:'\201C';font-family:'Playfair Display',serif;font-size:5rem;color:var(--gold);opacity:0.25;position:absolute;top:12px;left:24px;line-height:1;}
+  .stars{color:var(--gold);font-size:0.85rem;letter-spacing:2px;}
+  .reviewer-avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--wood-mid),var(--gold));display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Playfair Display',serif;font-weight:700;font-size:1.1rem;}
+
+  /* CONTACT */
+  #contact{background:var(--cream);}
+  .contact-card{background:linear-gradient(135deg,var(--wood-dark) 0%,var(--wood-mid) 100%);border-radius:16px;padding:48px 40px;box-shadow:0 16px 48px rgba(28,20,16,0.25);position:relative;overflow:hidden;}
+  .contact-card::before{content:'';position:absolute;top:-60px;right:-60px;width:220px;height:220px;border-radius:50%;background:rgba(201,151,59,0.08);}
+  .form-input,.form-textarea{width:100%;padding:14px 18px;background:rgba(255,255,255,0.07);border:1.5px solid rgba(255,255,255,0.15);border-radius:6px;color:#fff;font-family:'DM Sans',sans-serif;font-size:0.95rem;transition:border-color 0.25s;outline:none;}
+  .form-input::placeholder,.form-textarea::placeholder{color:rgba(255,255,255,0.38);}
+  .form-input:focus,.form-textarea:focus{border-color:var(--gold);background:rgba(255,255,255,0.1);}
+  .form-textarea{resize:vertical;min-height:130px;}
+  .form-label{font-size:0.8rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.65);margin-bottom:8px;display:block;}
+  .form-btn{width:100%;background:linear-gradient(135deg,var(--gold) 0%,var(--gold-light) 100%);color:var(--charcoal);font-weight:700;font-size:0.95rem;letter-spacing:0.1em;text-transform:uppercase;padding:16px;border:none;border-radius:6px;cursor:pointer;transition:all 0.3s;box-shadow:0 4px 16px rgba(201,151,59,0.3);}
+  .form-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,151,59,0.4);}
+  .contact-info-item{display:flex;align-items:flex-start;gap:16px;padding:20px 0;border-bottom:1px solid rgba(255,255,255,0.08);}
+  .contact-info-item:last-child{border-bottom:none;}
+  .contact-icon{width:44px;height:44px;border-radius:10px;background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;color:var(--gold-light);font-size:1rem;flex-shrink:0;}
+
+  /* WHATSAPP FLOAT */
+  .whatsapp-btn{position:fixed;bottom:28px;right:28px;z-index:999;width:60px;height:60px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.6rem;text-decoration:none;box-shadow:0 4px 20px rgba(37,211,102,0.45);transition:all 0.3s;animation:pulse-wa 2.5s infinite;}
+  .whatsapp-btn:hover{transform:scale(1.12);box-shadow:0 8px 32px rgba(37,211,102,0.55);animation:none;}
+  @keyframes pulse-wa{0%,100%{box-shadow:0 4px 20px rgba(37,211,102,0.45);}50%{box-shadow:0 4px 32px rgba(37,211,102,0.7),0 0 0 12px rgba(37,211,102,0.08);}}
+
+  /* FOOTER */
+  footer{background:repeating-linear-gradient(91deg,rgba(255,255,255,0.02) 0,rgba(255,255,255,0.02) 1px,transparent 1px,transparent 24px),linear-gradient(180deg,#1C1410 0%,#0E0A06 100%);border-top:3px solid var(--gold);}
+  .footer-logo{font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:var(--gold-light);}
+  .footer-logo span{color:rgba(255,255,255,0.5);font-weight:300;}
+  .footer-link{color:rgba(255,255,255,0.5);text-decoration:none;font-size:0.88rem;transition:color 0.2s;}
+  .footer-link:hover{color:var(--gold-light);}
+  .social-btn{width:38px;height:38px;border-radius:8px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.55);text-decoration:none;font-size:0.95rem;transition:all 0.25s;}
+  .social-btn:hover{background:var(--gold);color:var(--charcoal);}
+
+  /* MOBILE MENU */
+  #mobile-menu{display:none;background:linear-gradient(180deg,#2C1705 0%,#1C1410 100%);border-top:1px solid rgba(201,151,59,0.2);}
+  #mobile-menu.open{display:block;}
+  .mobile-link{display:block;padding:14px 24px;color:rgba(255,255,255,0.8);text-decoration:none;font-size:0.95rem;font-weight:500;border-bottom:1px solid rgba(255,255,255,0.05);transition:color 0.2s;}
+  .mobile-link:hover{color:var(--gold-light);}
+
+  /* ANIMATIONS */
+  .fade-up{opacity:0;transform:translateY(30px);transition:opacity 0.6s ease,transform 0.6s ease;}
+  .fade-up.visible{opacity:1;transform:translateY(0);}
+
+  /* NOTIFICATION */
+  #notif{position:fixed;bottom:100px;right:28px;z-index:9999;background:linear-gradient(135deg,var(--wood-dark),var(--wood-mid));color:#fff;padding:16px 24px;border-radius:10px;border-left:4px solid var(--gold);box-shadow:0 8px 32px rgba(0,0,0,0.3);transform:translateX(120%);transition:transform 0.4s ease;max-width:300px;}
+  #notif.show{transform:translateX(0);}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="#home" class="nav-logo">BSQUAR<span>&nbsp;Carpentry</span></a>
+    <div class="hidden md:flex items-center gap-8">
+      <a href="#home"         class="nav-link">Home</a>
+      <a href="#about"        class="nav-link">About</a>
+      <a href="#services"     class="nav-link">Services</a>
+      <a href="#portfolio"    class="nav-link">Portfolio</a>
+      <a href="#testimonials" class="nav-link">Reviews</a>
+      <a href="#contact"      class="nav-link nav-cta">Get a Quote</a>
+    </div>
+    <button id="hamburger" class="md:hidden text-white text-xl focus:outline-none" aria-label="Toggle menu">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+  <div id="mobile-menu">
+    <a href="#home"         class="mobile-link">Home</a>
+    <a href="#about"        class="mobile-link">About Us</a>
+    <a href="#services"     class="mobile-link">Services</a>
+    <a href="#portfolio"    class="mobile-link">Portfolio</a>
+    <a href="#testimonials" class="mobile-link">Reviews</a>
+    <a href="#contact"      class="mobile-link" style="color:var(--gold-light);font-weight:700;">Get a Quote →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="home" class="pt-20">
+  <div class="max-w-7xl mx-auto px-6 py-28 md:py-40">
+    <div class="max-w-3xl">
+      <div class="hero-eyebrow mb-6">Handcrafted Excellence Since 2010</div>
+      <h1 class="hero-title mb-6">Where <em>Wood</em><br>Becomes Art</h1>
+      <p class="hero-sub mb-10">Custom furniture and carpentry crafted with precision, passion, and 15+ years of expertise. We build pieces that last generations.</p>
+      <div class="flex flex-wrap gap-4 mb-16">
+        <a href="#portfolio" class="btn-primary">View Our Work <i class="fas fa-arrow-right text-sm"></i></a>
+        <a href="#contact"   class="btn-ghost">Get a Free Quote <i class="fas fa-pencil text-sm"></i></a>
+      </div>
+      <div class="flex flex-wrap gap-12">
+        <div>
+          <div class="hero-stat-num">500+</div>
+          <div class="hero-stat-label">Projects Completed</div>
+        </div>
+        <div style="border-left:1px solid rgba(255,255,255,0.12);padding-left:48px;">
+          <div class="hero-stat-num">15+</div>
+          <div class="hero-stat-label">Years Experience</div>
+        </div>
+        <div style="border-left:1px solid rgba(255,255,255,0.12);padding-left:48px;">
+          <div class="hero-stat-num">98%</div>
+          <div class="hero-stat-label">Client Satisfaction</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="py-24">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="grid md:grid-cols-2 gap-16 items-center">
+      <div class="about-img-frame relative fade-up">
+        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=700&q=80" alt="BSQUAR craftsman at work" class="w-full object-cover" style="height:480px;"/>
+        <div class="badge-years"><strong>15+</strong><span>Years of<br>Craft</span></div>
+      </div>
+      <div class="fade-up">
+        <div class="section-eyebrow mb-4">About BSQUAR</div>
+        <h2 class="section-title text-4xl md:text-5xl mb-6">Built on Skill,<br>Rooted in Wood</h2>
+        <div class="wood-accent-line mb-8"></div>
+        <p class="text-gray-600 leading-relaxed mb-6 text-lg">BSQUAR Carpentry & Furniture was founded on a simple belief: every piece of wood tells a story. We blend traditional craftsmanship with modern design to create furniture and carpentry work that transforms living and working spaces.</p>
+        <p class="text-gray-600 leading-relaxed mb-10">From custom dining tables to full kitchen cabinet installations, every project receives our full attention — from initial concept through final delivery. Our team of skilled artisans takes pride in quality that outlasts trends.</p>
+        <div class="grid grid-cols-2 gap-6">
+          <div class="flex items-start gap-3">
+            <div style="color:var(--gold);font-size:1.2rem;margin-top:2px;"><i class="fas fa-check-circle"></i></div>
+            <div><div class="font-semibold text-sm" style="color:var(--charcoal);">Premium Materials</div><div class="text-sm text-gray-500 mt-1">Only the finest sustainable hardwoods</div></div>
+          </div>
+          <div class="flex items-start gap-3">
+            <div style="color:var(--gold);font-size:1.2rem;margin-top:2px;"><i class="fas fa-check-circle"></i></div>
+            <div><div class="font-semibold text-sm" style="color:var(--charcoal);">Custom Design</div><div class="text-sm text-gray-500 mt-1">Tailored to your exact vision</div></div>
+          </div>
+          <div class="flex items-start gap-3">
+            <div style="color:var(--gold);font-size:1.2rem;margin-top:2px;"><i class="fas fa-check-circle"></i></div>
+            <div><div class="font-semibold text-sm" style="color:var(--charcoal);">On-Time Delivery</div><div class="text-sm text-gray-500 mt-1">We respect your schedule</div></div>
+          </div>
+          <div class="flex items-start gap-3">
+            <div style="color:var(--gold);font-size:1.2rem;margin-top:2px;"><i class="fas fa-check-circle"></i></div>
+            <div><div class="font-semibold text-sm" style="color:var(--charcoal);">Lifetime Support</div><div class="text-sm text-gray-500 mt-1">We stand behind our craftsmanship</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="py-24">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-16 fade-up">
+      <div class="section-eyebrow justify-center mb-4" style="display:flex;">Services</div>
+      <h2 class="section-title text-4xl md:text-5xl mb-5">What We Build</h2>
+      <p class="text-gray-500 max-w-xl mx-auto text-lg">From single statement pieces to complete room transformations — every service is delivered with the same standard of excellence.</p>
+    </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="service-card fade-up">
+        <div class="service-icon"><i class="fas fa-couch"></i></div>
+        <h3 class="text-xl font-bold mb-3" style="font-family:'Playfair Display',serif;color:var(--charcoal);">Custom Furniture</h3>
+        <p class="text-gray-500 text-sm leading-relaxed">Dining tables, chairs, beds, wardrobes — designed from scratch around your space, style, and budget.</p>
+      </div>
+      <div class="service-card fade-up">
+        <div class="service-icon"><i class="fas fa-utensils"></i></div>
+        <h3 class="text-xl font-bold mb-3" style="font-family:'Playfair Display',serif;color:var(--charcoal);">Kitchen Cabinets</h3>
+        <p class="text-gray-500 text-sm leading-relaxed">Modern kitchen cabinetry built for beauty and practicality. Soft-close hinges, smart storage, premium finishes.</p>
+      </div>
+      <div class="service-card fade-up">
+        <div class="service-icon"><i class="fas fa-door-open"></i></div>
+        <h3 class="text-xl font-bold mb-3" style="font-family:'Playfair Display',serif;color:var(--charcoal);">Doors & Windows</h3>
+        <p class="text-gray-500 text-sm leading-relaxed">Solid wood doors and window frames — classic or contemporary, crafted to fit perfectly and last.</p>
+      </div>
+      <div class="service-card fade-up">
+        <div class="service-icon"><i class="fas fa-layer-group"></i></div>
+        <h3 class="text-xl font-bold mb-3" style="font-family:'Playfair Display',serif;color:var(--charcoal);">Built-In Shelving</h3>
+        <p class="text-gray-500 text-sm leading-relaxed">Floor-to-ceiling shelving, TV units, and storage walls that look built into the architecture of your home.</p>
+      </div>
+      <div class="service-card fade-up">
+        <div class="service-icon"><i class="fas fa-store"></i></div>
+        <h3 class="text-xl font-bold mb-3" style="font-family:'Playfair Display',serif;color:var(--charcoal);">Commercial Fit-Out</h3>
+        <p class="text-gray-500 text-sm leading-relaxed">Offices, retail stores, cafes, and restaurants — we transform commercial spaces with bespoke woodwork.</p>
+      </div>
+      <div class="service-card fade-up">
+        <div class="service-icon"><i class="fas fa-tools"></i></div>
+        <h3 class="text-xl font-bold mb-3" style="font-family:'Playfair Display',serif;color:var(--charcoal);">Repair & Restoration</h3>
+        <p class="text-gray-500 text-sm leading-relaxed">Breathing new life into antique or damaged furniture. Expert restoration that preserves the story in every piece.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio" class="py-24">
+  <div class="max-w-7xl mx-auto px-6 mb-12 fade-up">
+    <div class="flex flex-wrap items-end justify-between gap-6">
+      <div>
+        <div class="section-eyebrow mb-4">Portfolio</div>
+        <h2 class="section-title text-4xl md:text-5xl" style="color:var(--cream);">Our Finest Work</h2>
+      </div>
+      <div class="flex gap-3 flex-wrap">
+        <button class="filter-btn active" onclick="filterGallery('all',this)">All</button>
+        <button class="filter-btn" onclick="filterGallery('furniture',this)">Furniture</button>
+        <button class="filter-btn" onclick="filterGallery('kitchen',this)">Kitchen</button>
+        <button class="filter-btn" onclick="filterGallery('custom',this)">Custom</button>
+      </div>
+    </div>
+  </div>
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="portfolio-grid" id="gallery">
+      <div class="portfolio-item tall" data-cat="furniture">
+        <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=80" alt="Sofa"/>
+        <div class="portfolio-overlay"><h4>Oak Living Set</h4><p>Custom Furniture</p></div>
+      </div>
+      <div class="portfolio-item" data-cat="kitchen">
+        <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=80" alt="Kitchen"/>
+        <div class="portfolio-overlay"><h4>Modern Kitchen</h4><p>Kitchen Cabinetry</p></div>
+      </div>
+      <div class="portfolio-item" data-cat="custom">
+        <img src="https://images.unsplash.com/photo-1567016432779-094069958ea5?w=600&q=80" alt="Shelf"/>
+        <div class="portfolio-overlay"><h4>Library Wall</h4><p>Built-In Shelving</p></div>
+      </div>
+      <div class="portfolio-item" data-cat="furniture">
+        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&q=80" alt="Bed"/>
+        <div class="portfolio-overlay"><h4>Platform Bed</h4><p>Bedroom Furniture</p></div>
+      </div>
+      <div class="portfolio-item" data-cat="kitchen">
+        <img src="https://images.unsplash.com/photo-1565183928294-7063f23ce0f8?w=600&q=80" alt="Cabinet"/>
+        <div class="portfolio-overlay"><h4>Walnut Kitchen</h4><p>Kitchen Cabinetry</p></div>
+      </div>
+      <div class="portfolio-item wide" data-cat="custom">
+        <img src="https://images.unsplash.com/photo-1533090481720-856c6e3c1fdc?w=900&q=80" alt="Desk"/>
+        <div class="portfolio-overlay"><h4>Executive Office Suite</h4><p>Commercial Fit-Out</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials" class="py-24">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-14 fade-up">
+      <div class="section-eyebrow justify-center mb-4" style="display:flex;">Testimonials</div>
+      <h2 class="section-title text-4xl md:text-5xl mb-5">What Our Clients Say</h2>
+      <p class="text-gray-500 max-w-xl mx-auto">Real words from real people who trusted us with their spaces.</p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="testimonial-card fade-up">
+        <div class="stars mb-4">★★★★★</div>
+        <p class="text-gray-600 leading-relaxed mb-6 text-sm">"BSQUAR built our entire kitchen from scratch. The quality is outstanding — every cabinet door closes perfectly. It's been two years and it still looks brand new. Absolute professionals."</p>
+        <div class="flex items-center gap-3">
+          <div class="reviewer-avatar">A</div>
+          <div><div class="font-bold text-sm" style="color:var(--charcoal);">Abebe Girma</div><div class="text-xs text-gray-400">Homeowner, Addis Ababa</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card fade-up">
+        <div class="stars mb-4">★★★★★</div>
+        <p class="text-gray-600 leading-relaxed mb-6 text-sm">"We ordered a custom dining table and 8 chairs. The craftsmanship is extraordinary — guests always ask where we got it. BSQUAR delivered on time and within budget. Highly recommend!"</p>
+        <div class="flex items-center gap-3">
+          <div class="reviewer-avatar" style="background:linear-gradient(135deg,#6B3A1F,#C9973B);">S</div>
+          <div><div class="font-bold text-sm" style="color:var(--charcoal);">Sara Tadesse</div><div class="text-xs text-gray-400">Restaurant Owner</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card fade-up">
+        <div class="stars mb-4">★★★★★</div>
+        <p class="text-gray-600 leading-relaxed mb-6 text-sm">"Our office fit-out was complex — custom desks, shelving, and a reception counter. BSQUAR handled everything seamlessly. The result is stunning and our team loves coming to work."</p>
+        <div class="flex items-center gap-3">
+          <div class="reviewer-avatar" style="background:linear-gradient(135deg,#1C1410,#6B3A1F);">M</div>
+          <div><div class="font-bold text-sm" style="color:var(--charcoal);">Mikiyas Hailu</div><div class="text-xs text-gray-400">CEO, Tech Startup</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="mt-16 text-center p-10 rounded-2xl fade-up" style="background:linear-gradient(135deg,var(--wood-dark) 0%,var(--wood-mid) 100%);">
+      <h3 class="text-2xl md:text-3xl font-bold text-white mb-4" style="font-family:'Playfair Display',serif;">Ready to Start Your Project?</h3>
+      <p class="text-white/60 mb-8 max-w-md mx-auto">Tell us your idea and we'll bring it to life. Free consultation, no obligation.</p>
+      <a href="#contact" class="btn-primary" style="display:inline-flex;">Get a Free Quote <i class="fas fa-arrow-right text-sm"></i></a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="py-24">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-14 fade-up">
+      <div class="section-eyebrow justify-center mb-4" style="display:flex;">Contact</div>
+      <h2 class="section-title text-4xl md:text-5xl mb-5">Let's Build Something</h2>
+      <p class="text-gray-500 max-w-xl mx-auto">Have a project in mind? Fill out the form and we'll get back to you within 24 hours.</p>
+    </div>
+    <div class="grid md:grid-cols-2 gap-10 items-start">
+      <div class="contact-card fade-up">
+        <h3 class="text-2xl font-bold text-white mb-8" style="font-family:'Playfair Display',serif;">Send Us a Message</h3>
+        <div class="grid grid-cols-2 gap-4 mb-5">
+          <div><label class="form-label">First Name</label><input type="text" class="form-input" placeholder="Abebe" id="fname"/></div>
+          <div><label class="form-label">Last Name</label><input type="text" class="form-input" placeholder="Girma" id="lname"/></div>
+        </div>
+        <div class="mb-5"><label class="form-label">Email Address</label><input type="email" class="form-input" placeholder="you@example.com" id="femail"/></div>
+        <div class="mb-5"><label class="form-label">Phone Number</label><input type="tel" class="form-input" placeholder="+251 9XX XXX XXX" id="fphone"/></div>
+        <div class="mb-5">
+          <label class="form-label">Service Needed</label>
+          <select class="form-input" id="fservice" style="cursor:pointer;">
+            <option value="" style="background:#2C1705;">Select a service…</option>
+            <option value="furniture" style="background:#2C1705;">Custom Furniture</option>
+            <option value="kitchen"   style="background:#2C1705;">Kitchen Cabinets</option>
+            <option value="doors"     style="background:#2C1705;">Doors & Windows</option>
+            <option value="shelving"  style="background:#2C1705;">Built-In Shelving</option>
+            <option value="commercial" style="background:#2C1705;">Commercial Fit-Out</option>
+            <option value="restoration" style="background:#2C1705;">Repair & Restoration</option>
+          </select>
+        </div>
+        <div class="mb-8"><label class="form-label">Your Message</label><textarea class="form-textarea" placeholder="Describe your project — dimensions, materials, timeline…" id="fmessage"></textarea></div>
+        <button class="form-btn" onclick="submitForm()"><i class="fas fa-paper-plane mr-2"></i> Send Message</button>
+      </div>
+
+      <div class="fade-up">
+        <div class="contact-card mb-6">
+          <div class="contact-info-item">
+            <div class="contact-icon"><i class="fab fa-whatsapp"></i></div>
+            <div>
+              <div class="text-xs font-semibold tracking-widest text-white/40 uppercase mb-1">WhatsApp</div>
+              <a href="https://wa.me/251900000000" target="_blank" class="text-white font-semibold hover:text-yellow-300 transition-colors">+251 900 000 000</a>
+              <div class="text-white/40 text-xs mt-1">Available daily 8am – 8pm</div>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+            <div>
+              <div class="text-xs font-semibold tracking-widest text-white/40 uppercase mb-1">Email</div>
+              <a href="mailto:bereketyonas69@gmail.com" class="text-white font-semibold hover:text-yellow-300 transition-colors">bereketyonas69@gmail.com</a>
+              <div class="text-white/40 text-xs mt-1">We reply within 24 hours</div>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+            <div>
+              <div class="text-xs font-semibold tracking-widest text-white/40 uppercase mb-1">Location</div>
+              <div class="text-white font-semibold">Addis Ababa, Ethiopia</div>
+              <div class="text-white/40 text-xs mt-1">Workshop & showroom visits by appointment</div>
+            </div>
+          </div>
+          <div class="contact-info-item" style="border:none;">
+            <div class="contact-icon"><i class="fas fa-clock"></i></div>
+            <div>
+              <div class="text-xs font-semibold tracking-widest text-white/40 uppercase mb-1">Working Hours</div>
+              <div class="text-white font-semibold">Mon – Sat: 8:00am – 6:00pm</div>
+              <div class="text-white/40 text-xs mt-1">Sunday: By appointment only</div>
+            </div>
+          </div>
+        </div>
+        <a href="https://wa.me/251900000000?text=Hello%20BSQUAR!%20I'm%20interested%20in%20a%20quote%20for%20my%20project." target="_blank"
+           class="flex items-center gap-5 p-6 rounded-2xl no-underline transition-all hover:scale-105"
+           style="background:linear-gradient(135deg,#128C7E,#25D366);box-shadow:0 8px 32px rgba(37,211,102,0.3);">
+          <div class="text-white text-4xl"><i class="fab fa-whatsapp"></i></div>
+          <div>
+            <div class="text-white font-bold text-lg">Chat on WhatsApp</div>
+            <div class="text-white/70 text-sm">Quick quotes & questions — we respond fast</div>
+          </div>
+          <i class="fas fa-arrow-right text-white/60 ml-auto"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="py-16">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="grid md:grid-cols-4 gap-10 mb-12">
+      <div class="md:col-span-2">
+        <div class="footer-logo mb-4">BSQUAR<span> Carpentry</span></div>
+        <p class="text-sm leading-relaxed mb-6" style="color:rgba(255,255,255,0.45);max-width:340px;">Crafting premium custom furniture and carpentry since 2010. Every piece is built with care, skill, and respect for the material.</p>
+        <div class="flex gap-3">
+          <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-btn"><i class="fab fa-tiktok"></i></a>
+          <a href="https://wa.me/251900000000" class="social-btn"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div>
+        <h5 class="text-sm font-bold tracking-widest uppercase mb-6" style="color:var(--gold-light);">Quick Links</h5>
+        <div class="flex flex-col gap-3">
+          <a href="#home"         class="footer-link">Home</a>
+          <a href="#about"        class="footer-link">About Us</a>
+          <a href="#services"     class="footer-link">Services</a>
+          <a href="#portfolio"    class="footer-link">Portfolio</a>
+          <a href="#testimonials" class="footer-link">Testimonials</a>
+          <a href="#contact"      class="footer-link">Contact</a>
+        </div>
+      </div>
+      <div>
+        <h5 class="text-sm font-bold tracking-widest uppercase mb-6" style="color:var(--gold-light);">Services</h5>
+        <div class="flex flex-col gap-3">
+          <a href="#services" class="footer-link">Custom Furniture</a>
+          <a href="#services" class="footer-link">Kitchen Cabinets</a>
+          <a href="#services" class="footer-link">Doors & Windows</a>
+          <a href="#services" class="footer-link">Built-In Shelving</a>
+          <a href="#services" class="footer-link">Commercial Fit-Out</a>
+          <a href="#services" class="footer-link">Restoration</a>
+        </div>
+      </div>
+    </div>
+    <div class="pt-8 flex flex-wrap items-center justify-between gap-4" style="border-top:1px solid rgba(255,255,255,0.07);">
+      <p class="text-xs" style="color:rgba(255,255,255,0.3);">© 2024 BSQUAR Carpentry & Furniture. All rights reserved.</p>
+      <p class="text-xs" style="color:rgba(255,255,255,0.2);">Designed by <span style="color:var(--gold);opacity:0.6;">CodeCraft Media</span></p>
+    </div>
+  </div>
+</footer>
+
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/251900000000?text=Hello%20BSQUAR!%20I%27d%20like%20a%20quote%20for%20my%20furniture%20project." target="_blank" class="whatsapp-btn" title="Chat on WhatsApp">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+<div id="notif">
+  <div class="flex items-center gap-3">
+    <i class="fas fa-check-circle" style="color:var(--gold);font-size:1.2rem;"></i>
+    <div><div class="font-bold text-sm">Message Sent!</div><div class="text-xs text-white/60 mt-1">We'll get back to you within 24 hours.</div></div>
+  </div>
+</div>
+
+<script>
+// Navbar scroll
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => { navbar.classList.toggle('scrolled', window.scrollY > 60); });
+
+// Hamburger
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+hamburger.addEventListener('click', () => {
+  mobileMenu.classList.toggle('open');
+  hamburger.innerHTML = mobileMenu.classList.contains('open') ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+});
+mobileMenu.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => { mobileMenu.classList.remove('open'); hamburger.innerHTML = '<i class="fas fa-bars"></i>'; });
+});
+
+// Scroll animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// Gallery filter
+function filterGallery(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.portfolio-item').forEach(item => {
+    const matches = cat === 'all' || item.dataset.cat === cat;
+    item.style.transition = 'opacity 0.35s, transform 0.35s';
+    item.style.opacity = matches ? '1' : '0.15';
+    item.style.transform = matches ? 'scale(1)' : 'scale(0.97)';
+    item.style.pointerEvents = matches ? 'auto' : 'none';
+  });
+}
+
+// Form submit
+function submitForm() {
+  const fname = document.getElementById('fname').value.trim();
+  const femail = document.getElementById('femail').value.trim();
+  const fmessage = document.getElementById('fmessage').value.trim();
+  if (!fname || !femail || !fmessage) { alert('Please fill in your name, email, and message.'); return; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(femail)) { alert('Please enter a valid email address.'); return; }
+  const notif = document.getElementById('notif');
+  notif.classList.add('show');
+  setTimeout(() => notif.classList.remove('show'), 4000);
+  ['fname','lname','femail','fphone','fservice','fmessage'].forEach(id => { document.getElementById(id).value = ''; });
+}
+
+// Smooth scroll with offset
+document.querySelectorAll('a[href^="#"]').forEach(link => {
+  link.addEventListener('click', e => {
+    const target = document.querySelector(link.getAttribute('href'));
+    if (target) { e.preventDefault(); window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' }); }
+  });
+});
+</script>
+</body>
+</html>
