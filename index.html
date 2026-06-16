@@ -183,110 +183,173 @@
       color: var(--muted);
     }
 
-    /* PREVIEW MODAL */
+    /* FULLSCREEN PREVIEW MODAL */
     .modal-overlay {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.85);
       z-index: 200;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
+      background: #000;
     }
-    .modal-overlay.open { display: flex; }
+    .modal-overlay.open { display: block; }
+
+    /* Hazy blur vignette on all 4 edges */
+    .modal-overlay::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 202;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 100% 25% at 50% 0%,   rgba(0,0,0,0.72) 0%, transparent 100%),
+        radial-gradient(ellipse 100% 25% at 50% 100%, rgba(0,0,0,0.72) 0%, transparent 100%),
+        radial-gradient(ellipse 20% 100% at 0%   50%, rgba(0,0,0,0.55) 0%, transparent 100%),
+        radial-gradient(ellipse 20% 100% at 100% 50%, rgba(0,0,0,0.55) 0%, transparent 100%);
+      backdrop-filter: blur(0px);
+    }
+
+    /* Additional soft blur rings */
+    .modal-overlay::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 201;
+      pointer-events: none;
+      box-shadow:
+        inset 0 0 80px 40px rgba(0,0,0,0.65),
+        inset 0 0 160px 80px rgba(0,0,0,0.35);
+      border-radius: 0;
+    }
+
     .modal {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      width: 100%;
-      max-width: 960px;
-      max-height: 92vh;
-      overflow: hidden;
+      position: fixed;
+      inset: 0;
+      z-index: 203;
       display: flex;
       flex-direction: column;
+      background: transparent;
     }
-    .modal-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1rem 1.4rem;
-      border-bottom: 1px solid var(--border);
-      flex-shrink: 0;
-    }
-    .modal-title {
-      font-weight: 700;
-      font-size: 0.95rem;
-    }
-    .modal-controls {
+
+    /* Close button — top LEFT corner */
+    .modal-close-corner {
+      position: fixed;
+      top: 1.1rem;
+      left: 1.1rem;
+      z-index: 210;
       display: flex;
       align-items: center;
       gap: 0.5rem;
     }
+    .close-btn {
+      background: rgba(20,20,20,0.88);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #ccc;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.18s;
+      backdrop-filter: blur(8px);
+    }
+    .close-btn:hover { background: rgba(124,92,252,0.7); border-color: var(--accent); color: #fff; }
+    .modal-label-corner {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.3px;
+    }
+
+    /* Left-side DESKTOP / MOBILE overlay panel */
+    .modal-device-panel {
+      position: fixed;
+      left: 1.1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 210;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      background: rgba(15,15,15,0.82);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 0.65rem 0.5rem;
+      backdrop-filter: blur(12px);
+    }
+    .modal-device-panel .panel-label {
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: rgba(255,255,255,0.35);
+      text-align: center;
+      margin-bottom: 0.25rem;
+    }
     .size-btn {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      color: var(--muted);
-      font-size: 0.75rem;
-      padding: 0.35rem 0.75rem;
-      border-radius: 6px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.55);
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 0.55rem 0.85rem;
+      border-radius: 8px;
       cursor: pointer;
       transition: all 0.15s;
       display: flex;
       align-items: center;
-      gap: 0.35rem;
+      gap: 0.4rem;
+      white-space: nowrap;
+      font-family: var(--font);
     }
     .size-btn.active, .size-btn:hover {
       background: var(--accent);
       border-color: var(--accent);
       color: #fff;
     }
-    .close-btn {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      color: var(--muted);
-      width: 32px;
-      height: 32px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 1.1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.15s;
-      margin-left: 0.5rem;
-    }
-    .close-btn:hover { border-color: #555; color: var(--text); }
+
+    /* Hidden old modal header */
+    .modal-header { display: none; }
+
     .modal-frame-wrap {
       flex: 1;
       overflow: auto;
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      padding: 1.5rem;
-      background: #050505;
+      padding: 0;
+      background: transparent;
+      position: fixed;
+      inset: 0;
+      overflow: auto;
     }
     .iframe-shell {
       background: #fff;
-      border-radius: 10px;
       overflow: hidden;
-      transition: width 0.3s ease;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      transition: width 0.35s cubic-bezier(0.4,0,0.2,1), margin 0.35s ease;
+      box-shadow: 0 0 80px 20px rgba(0,0,0,0.6);
     }
-    .iframe-shell.desktop { width: 100%; max-width: 880px; }
-    .iframe-shell.mobile  { width: 390px; }
+    .iframe-shell.desktop {
+      width: 100%;
+      height: 100vh;
+      border-radius: 0;
+      margin: 0;
+    }
+    .iframe-shell.mobile  {
+      width: 390px;
+      min-height: 100vh;
+      border-radius: 0;
+      margin: 0 auto;
+    }
     .iframe-shell iframe {
       width: 100%;
-      height: 600px;
+      height: 100vh;
       border: none;
       display: block;
     }
     .modal-footer {
-      padding: 1rem 1.4rem;
-      border-top: 1px solid var(--border);
-      display: flex;
-      gap: 0.75rem;
-      flex-shrink: 0;
+      display: none;
     }
     .btn-select {
       flex: 1;
@@ -501,58 +564,58 @@
 
 <div class="cards-grid" id="cardsGrid">
 
-  <div class="card" data-id="v1" data-title="V1 — Landing Page" data-url="V1 - LANDING PAGE.html">
+  <div class="card" data-id="v1" data-title="V1 — Landing Page" data-url="web/V1 - LANDING PAGE.html">
     <div class="card-preview">
-      <iframe src="V1 - LANDING PAGE.html" loading="lazy" scrolling="no" title="V1 Landing Page Preview"></iframe>
+      <iframe src="web/V1 - LANDING PAGE.html" loading="lazy" scrolling="no" title="V1 Landing Page Preview"></iframe>
     </div>
     <div class="card-info">
       <div class="card-title">V1 — Landing Page</div>
       <div class="card-desc">Clean, conversion-focused single-page layout</div>
     </div>
     <div class="card-actions">
-      <button class="btn-preview" onclick="openPreview('V1 — Landing Page', 'V1 - LANDING PAGE.html', 'v1')">👁 Preview</button>
+      <button class="btn-preview" onclick="openPreview('V1 — Landing Page', 'web/V1 - LANDING PAGE.html', 'v1')">👁 Preview</button>
       <button class="btn-pick" onclick="selectCard('v1', 'V1 — Landing Page')">Select this</button>
     </div>
   </div>
 
-  <div class="card" data-id="v2" data-title="V2 — Web App" data-url="V2 - WEB APP.html">
+  <div class="card" data-id="v2" data-title="V2 — Web App" data-url="web/V2 - WEB APP.html">
     <div class="card-preview">
-      <iframe src="V2 -  WEB APP.html" loading="lazy" scrolling="no" title="V2 Web App Preview"></iframe>
+      <iframe src="web/v2.html" loading="lazy" scrolling="no" title="V2 Web App Preview"></iframe>
     </div>
     <div class="card-info">
       <div class="card-title">V2 — Web App</div>
       <div class="card-desc">Feature-rich web application experience</div>
     </div>
     <div class="card-actions">
-      <button class="btn-preview" onclick="openPreview('V2 — Web App', 'V2 - WEB APP.html', 'v2')">👁 Preview</button>
+      <button class="btn-preview" onclick="openPreview('V2 — Web App', 'web/v2.html', 'v2')">👁 Preview</button>
       <button class="btn-pick" onclick="selectCard('v2', 'V2 — Web App')">Select this</button>
     </div>
   </div>
 
-  <div class="card" data-id="main" data-title="Bsquar Furniture — Main Site" data-url="bsquar-furniture.html">
+  <div class="card" data-id="main" data-title="Bsquar Furniture — Main Site" data-url="web/bsquar-furniture.html">
     <div class="card-preview">
-      <iframe src="bsquar-furniture.html" loading="lazy" scrolling="no" title="Main Site Preview"></iframe>
+      <iframe src="web/bsquar-furniture.html" loading="lazy" scrolling="no" title="Main Site Preview"></iframe>
     </div>
     <div class="card-info">
       <div class="card-title">Bsquar Furniture — Main Site</div>
       <div class="card-desc">Full brand website with all sections</div>
     </div>
     <div class="card-actions">
-      <button class="btn-preview" onclick="openPreview('Bsquar Furniture — Main Site', 'bsquar-furniture.html', 'main')">👁 Preview</button>
+      <button class="btn-preview" onclick="openPreview('Bsquar Furniture — Main Site', 'web/bsquar-furniture.html', 'main')">👁 Preview</button>
       <button class="btn-pick" onclick="selectCard('main', 'Bsquar Furniture — Main Site')">Select this</button>
     </div>
   </div>
 
-  <div class="card" data-id="preview" data-title="Preview Version" data-url="preview.html">
+  <div class="card" data-id="preview" data-title="Preview Version" data-url="web/preview.html">
     <div class="card-preview">
-      <iframe src="preview.html" loading="lazy" scrolling="no" title="Preview Version"></iframe>
+      <iframe src="web/preview.html" loading="lazy" scrolling="no" title="Preview Version"></iframe>
     </div>
     <div class="card-info">
       <div class="card-title">Preview Version</div>
       <div class="card-desc">Alternate style exploration and layout</div>
     </div>
     <div class="card-actions">
-      <button class="btn-preview" onclick="openPreview('Preview Version', 'preview.html', 'preview')">👁 Preview</button>
+      <button class="btn-preview" onclick="openPreview('Preview Version', 'web/preview.html', 'preview')">👁 Preview</button>
       <button class="btn-pick" onclick="selectCard('preview', 'Preview Version')">Select this</button>
     </div>
   </div>
@@ -596,26 +659,31 @@
   </div>
 </div>
 
-<!-- MODAL -->
-<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+<!-- FULLSCREEN PREVIEW MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <!-- Close button — top left corner -->
+  <div class="modal-close-corner">
+    <button class="close-btn" onclick="closeModal()" title="Close preview">✕</button>
+    <span class="modal-label-corner" id="modalTitle">Preview</span>
+  </div>
+
+  <!-- Device toggle panel — left side, vertically centered -->
+  <div class="modal-device-panel">
+    <div class="panel-label">View as</div>
+    <button class="size-btn active" id="btnDesktop" onclick="setSize('desktop')">🖥 Desktop</button>
+    <button class="size-btn" id="btnMobile" onclick="setSize('mobile')">📱 Mobile</button>
+    <div style="border-top:1px solid rgba(255,255,255,0.08);margin:0.4rem 0;"></div>
+    <button class="size-btn" onclick="selectFromModal()" style="color:#a78bfa;border-color:rgba(124,92,252,0.3)">✦ Select</button>
+  </div>
+
   <div class="modal">
-    <div class="modal-header">
-      <div class="modal-title" id="modalTitle">—</div>
-      <div class="modal-controls">
-        <button class="size-btn active" id="btnDesktop" onclick="setSize('desktop')">🖥 Desktop</button>
-        <button class="size-btn" id="btnMobile" onclick="setSize('mobile')">📱 Mobile</button>
-        <button class="close-btn" onclick="closeModal()">✕</button>
-      </div>
-    </div>
-    <div class="modal-frame-wrap">
+    <div class="modal-header"></div>
+    <div class="modal-frame-wrap" id="modalFrameWrap">
       <div class="iframe-shell desktop" id="iframeShell">
         <iframe id="previewFrame" src="" title="Website Preview"></iframe>
       </div>
     </div>
-    <div class="modal-footer">
-      <button class="btn-cancel" onclick="closeModal()">Close</button>
-      <button class="btn-select" id="modalSelectBtn" onclick="selectFromModal()">Select this design ✦</button>
-    </div>
+    <div class="modal-footer"></div>
   </div>
 </div>
 
