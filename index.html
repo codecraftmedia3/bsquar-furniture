@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bsquar Furniture — Choose Your Website | CodeCraft</title>
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --surface: #111111;
+      --surface2: #1a1a1a;
+      --border: #222222;
+      --accent: #7c5cfc;
+      --accent2: #a78bfa;
+      --text: #f0f0f0;
+      --muted: #888888;
+      --success: #22c55e;
+      --radius: 12px;
+      --font: 'Inter', system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* NAV */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 2rem;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: rgba(10,10,10,0.9);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+    }
+    .logo {
+      font-weight: 800;
+      font-size: 1.2rem;
+      letter-spacing: -0.5px;
+      color: var(--text);
+    }
+    .logo span { color: var(--accent); }
+    .nav-tag {
+      font-size: 0.75rem;
+      color: var(--muted);
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.8rem;
+      border-radius: 99px;
+      letter-spacing: 0.5px;
+    }
+
+    /* HERO */
+    .hero {
+      text-align: center;
+      padding: 4rem 2rem 3rem;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    .hero-eyebrow {
+      font-size: 0.72rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 1rem;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--accent);
+    }
+    .hero p {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    /* STEP LABELS */
+    .step-label {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.78rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0 2rem;
+      max-width: 1200px;
+      margin: 2.5rem auto 1rem;
+    }
+    .step-label::before {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    /* WEBSITE CARDS */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.2rem;
+      padding: 0 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+      position: relative;
+    }
+    .card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(124,92,252,0.15);
+    }
+    .card.selected {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(124,92,252,0.25), 0 8px 32px rgba(124,92,252,0.2);
+    }
+    .card.selected::after {
+      content: '✓ Selected';
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.25rem 0.6rem;
+      border-radius: 99px;
+      letter-spacing: 0.5px;
+    }
+
+    .card-preview {
+      width: 100%;
+      height: 200px;
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+      position: relative;
+      background: #0f0f0f;
+    }
+    .card-preview iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      pointer-events: none;
+      transform-origin: top left;
+    }
+
+    .card-info {
+      padding: 1rem;
+    }
+    .card-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 0.2rem;
+    }
+    .card-desc {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    /* FULLSCREEN PREVIEW MODAL */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: #000;
+    }
+    .modal-overlay.open { display: block; }
+
+    /* Hazy blur vignette on all 4 edges */
+    .modal-overlay::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 202;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 100% 25% at 50% 0%,   rgba(0,0,0,0.72) 0%, transparent 100%),
+        radial-gradient(ellipse 100% 25% at 50% 100%, rgba(0,0,0,0.72) 0%, transparent 100%),
+        radial-gradient(ellipse 20% 100% at 0%   50%, rgba(0,0,0,0.55) 0%, transparent 100%),
+        radial-gradient(ellipse 20% 100% at 100% 50%, rgba(0,0,0,0.55) 0%, transparent 100%);
+      backdrop-filter: blur(0px);
+    }
+
+    /* Additional soft blur rings */
+    .modal-overlay::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 201;
+      pointer-events: none;
+      box-shadow:
+        inset 0 0 80px 40px rgba(0,0,0,0.65),
+        inset 0 0 160px 80px rgba(0,0,0,0.35);
+      border-radius: 0;
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 203;
+      display: flex;
+      flex-direction: column;
+      background: transparent;
+    }
+
+    /* Close button — top LEFT corner */
+    .modal-close-corner {
+      position: fixed;
+      top: 1.1rem;
+      left: 1.1rem;
+      z-index: 210;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .close-btn {
+      background: rgba(20,20,20,0.88);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #ccc;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.18s;
+      backdrop-filter: blur(8px);
+    }
+    .close-btn:hover { background: rgba(124,92,252,0.7); border-color: var(--accent); color: #fff; }
+    .modal-label-corner {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.3px;
+    }
+
+    /* Left-side DESKTOP / MOBILE overlay panel */
+    .modal-device-panel {
+      position: fixed;
+      left: 1.1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 210;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      background: rgba(15,15,15,0.82);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 0.65rem 0.5rem;
+      backdrop-filter: blur(12px);
+    }
+    .modal-device-panel .panel-label {
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: rgba(255,255,255,0.35);
+      text-align: center;
+      margin-bottom: 0.25rem;
+    }
+    .size-btn {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.55);
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 0.55rem 0.85rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      white-space: nowrap;
+      font-family: var(--font);
+    }
+    .size-btn.active, .size-btn:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    /* Hidden old modal header */
+    .modal-header { display: none; }
+
+    .modal-frame-wrap {
+      flex: 1;
+      overflow: auto;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 0;
+      background: transparent;
+      position: fixed;
+      inset: 0;
+      overflow: auto;
+    }
+    .iframe-shell {
+      background: #fff;
+      overflow: hidden;
+      transition: width 0.35s cubic-bezier(0.4,0,0.2,1), margin 0.35s ease;
+      box-shadow: 0 0 80px 20px rgba(0,0,0,0.6);
+    }
+    .iframe-shell.desktop {
+      width: 100%;
+      height: 100vh;
+      border-radius: 0;
+      margin: 0;
+    }
+    .iframe-shell.mobile  {
+      width: 390px;
+      min-height: 100vh;
+      border-radius: 0;
+      margin: 0 auto;
+    }
+    .iframe-shell iframe {
+      width: 100%;
+      height: 100vh;
+      border: none;
+      display: block;
+    }
+    .modal-footer {
+      display: none;
+    }
+    .btn-select {
+      flex: 1;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .btn-select:hover { opacity: 0.85; }
+    .btn-cancel {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 0.75rem 1.2rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn-cancel:hover { border-color: #444; color: var(--text); }
+
+    /* FORM */
+    .form-section {
+      max-width: 720px;
+      margin: 2.5rem auto 4rem;
+      padding: 0 2rem;
+    }
+    .form-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+    }
+    .selected-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(124,92,252,0.12);
+      border: 1px solid rgba(124,92,252,0.3);
+      color: var(--accent2);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.35rem 0.85rem;
+      border-radius: 99px;
+      margin-bottom: 1.5rem;
+    }
+    .no-selection {
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-style: italic;
+      margin-bottom: 1.5rem;
+    }
+    label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+    }
+    textarea, input[type="text"] {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 8px;
+      padding: 0.85rem 1rem;
+      font-size: 0.92rem;
+      font-family: var(--font);
+      resize: vertical;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    textarea:focus, input[type="text"]:focus {
+      border-color: var(--accent);
+    }
+    textarea { min-height: 110px; }
+    .form-row { margin-bottom: 1.4rem; }
+    .form-hint {
+      font-size: 0.74rem;
+      color: var(--muted);
+      margin-top: 0.35rem;
+      font-style: italic;
+    }
+    .submit-btn {
+      width: 100%;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 1rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+      transition: opacity 0.2s, transform 0.15s;
+      margin-top: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    .submit-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+    .submit-btn:active { transform: translateY(0); }
+
+    /* SUCCESS */
+    .success-box {
+      display: none;
+      text-align: center;
+      padding: 2.5rem 1.5rem;
+    }
+    .success-box.show { display: block; }
+    .success-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    .success-box h3 {
+      font-size: 1.3rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+    .success-box p { color: var(--muted); font-size: 0.9rem; }
+    .success-box .restart {
+      margin-top: 1.5rem;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .success-box .restart:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* PREVIEW BTN ON CARD */
+    .card-actions {
+      display: flex;
+      gap: 0.6rem;
+      padding: 0 1rem 1rem;
+    }
+    .btn-preview {
+      flex: 1;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 0.5rem;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: var(--font);
+    }
+    .btn-preview:hover { border-color: var(--accent2); color: var(--accent2); }
+    .btn-pick {
+      flex: 1;
+      background: var(--accent);
+      border: none;
+      color: #fff;
+      padding: 0.5rem;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.15s;
+      font-family: var(--font);
+    }
+    .btn-pick:hover { opacity: 0.8; }
+
+    /* DIVIDER */
+    .divider {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 2rem;
+      border: none;
+      border-top: 1px solid var(--border);
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 1rem; }
+      .cards-grid { grid-template-columns: 1fr; padding: 0 1rem; }
+      .step-label { padding: 0 1rem; }
+      .form-section { padding: 0 1rem; }
+      .modal-frame-wrap { padding: 0.75rem; }
+      .iframe-shell.mobile { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Code<span>Craft</span></div>
+  <div class="nav-tag">Client Preview Portal</div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <p class="hero-eyebrow">✦ Bsquar Furniture · Website Selection</p>
+  <h1>Pick your <em>perfect</em> website.</h1>
+  <p>Browse all four design options below, preview them on mobile and desktop, then tell us what you'd like changed and your budget.</p>
+</div>
+
+<!-- STEP 1 -->
+<div class="step-label">Step 01 — Choose a design</div>
+
+<div class="cards-grid" id="cardsGrid">
+
+  <div class="card" data-id="v1" data-title="V1 — Landing Page" data-url="web/V1 - LANDING PAGE.html">
+    <div class="card-preview">
+      <iframe src="web/V1 - LANDING PAGE.html" loading="lazy" scrolling="no" title="V1 Landing Page Preview"></iframe>
+    </div>
+    <div class="card-info">
+      <div class="card-title">V1 — Landing Page</div>
+      <div class="card-desc">Clean, conversion-focused single-page layout</div>
+    </div>
+    <div class="card-actions">
+      <button class="btn-preview" onclick="openPreview('V1 — Landing Page', 'web/V1 - LANDING PAGE.html', 'v1')">👁 Preview</button>
+      <button class="btn-pick" onclick="selectCard('v1', 'V1 — Landing Page')">Select this</button>
+    </div>
+  </div>
+
+  <div class="card" data-id="v2" data-title="V2 — Web App" data-url="web/V2 - WEB APP.html">
+    <div class="card-preview">
+      <iframe src="web/v2.html" loading="lazy" scrolling="no" title="V2 Web App Preview"></iframe>
+    </div>
+    <div class="card-info">
+      <div class="card-title">V2 — Web App</div>
+      <div class="card-desc">Feature-rich web application experience</div>
+    </div>
+    <div class="card-actions">
+      <button class="btn-preview" onclick="openPreview('V2 — Web App', 'web/v2.html', 'v2')">👁 Preview</button>
+      <button class="btn-pick" onclick="selectCard('v2', 'V2 — Web App')">Select this</button>
+    </div>
+  </div>
+
+  <div class="card" data-id="main" data-title="Bsquar Furniture — Main Site" data-url="web/bsquar-furniture.html">
+    <div class="card-preview">
+      <iframe src="web/bsquar-furniture.html" loading="lazy" scrolling="no" title="Main Site Preview"></iframe>
+    </div>
+    <div class="card-info">
+      <div class="card-title">Bsquar Furniture — Main Site</div>
+      <div class="card-desc">Full brand website with all sections</div>
+    </div>
+    <div class="card-actions">
+      <button class="btn-preview" onclick="openPreview('Bsquar Furniture — Main Site', 'web/bsquar-furniture.html', 'main')">👁 Preview</button>
+      <button class="btn-pick" onclick="selectCard('main', 'Bsquar Furniture — Main Site')">Select this</button>
+    </div>
+  </div>
+
+  <div class="card" data-id="preview" data-title="Preview Version" data-url="web/preview.html">
+    <div class="card-preview">
+      <iframe src="web/preview.html" loading="lazy" scrolling="no" title="Preview Version"></iframe>
+    </div>
+    <div class="card-info">
+      <div class="card-title">Preview Version</div>
+      <div class="card-desc">Alternate style exploration and layout</div>
+    </div>
+    <div class="card-actions">
+      <button class="btn-preview" onclick="openPreview('Preview Version', 'web/preview.html', 'preview')">👁 Preview</button>
+      <button class="btn-pick" onclick="selectCard('preview', 'Preview Version')">Select this</button>
+    </div>
+  </div>
+
+</div>
+
+<hr class="divider">
+
+<!-- STEP 2 -->
+<div class="step-label">Step 02 — Submit your request</div>
+
+<div class="form-section">
+  <div class="form-box">
+    <!-- Selected badge -->
+    <div id="selectedBadge" class="no-selection">⬆ Select a design above first</div>
+
+    <div id="mainForm">
+      <div class="form-row">
+        <label for="changes">Changes & Details</label>
+        <textarea id="changes" placeholder="e.g. Change the logo, use our brand colors (#1a1a1a and gold), update the product images, add a WhatsApp contact button, change all text to English…"></textarea>
+        <div class="form-hint">Be as specific as possible — the more detail, the faster we can deliver.</div>
+      </div>
+
+      <div class="form-row">
+        <label for="budget">Your Expected Budget (USD or ETB)</label>
+        <input type="text" id="budget" placeholder="e.g. $200  or  5,000 ETB" />
+        <div class="form-hint">This helps us plan the right scope for your project.</div>
+      </div>
+
+      <button class="submit-btn" onclick="submitForm()">
+        Submit Request ✦
+      </button>
+    </div>
+
+    <div class="success-box" id="successBox">
+      <div class="success-icon">🎉</div>
+      <h3>Request received!</h3>
+      <p>We've got your selection and details. The CodeCraft team will reach out within 24 hours with a custom plan.</p>
+      <button class="restart" onclick="resetForm()">Submit another →</button>
+    </div>
+  </div>
+</div>
+
+<!-- FULLSCREEN PREVIEW MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <!-- Close button — top left corner -->
+  <div class="modal-close-corner">
+    <button class="close-btn" onclick="closeModal()" title="Close preview">✕</button>
+    <span class="modal-label-corner" id="modalTitle">Preview</span>
+  </div>
+
+  <!-- Device toggle panel — left side, vertically centered -->
+  <div class="modal-device-panel">
+    <div class="panel-label">View as</div>
+    <button class="size-btn active" id="btnDesktop" onclick="setSize('desktop')">🖥 Desktop</button>
+    <button class="size-btn" id="btnMobile" onclick="setSize('mobile')">📱 Mobile</button>
+    <div style="border-top:1px solid rgba(255,255,255,0.08);margin:0.4rem 0;"></div>
+    <button class="size-btn" onclick="selectFromModal()" style="color:#a78bfa;border-color:rgba(124,92,252,0.3)">✦ Select</button>
+  </div>
+
+  <div class="modal">
+    <div class="modal-header"></div>
+    <div class="modal-frame-wrap" id="modalFrameWrap">
+      <div class="iframe-shell desktop" id="iframeShell">
+        <iframe id="previewFrame" src="" title="Website Preview"></iframe>
+      </div>
+    </div>
+    <div class="modal-footer"></div>
+  </div>
+</div>
+
+<script>
+  let selectedId = null;
+  let selectedTitle = '';
+  let currentModalId = '';
+  let currentModalTitle = '';
+
+  function selectCard(id, title) {
+    selectedId = id;
+    selectedTitle = title;
+
+    document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
+    document.querySelector(`.card[data-id="${id}"]`).classList.add('selected');
+
+    const badge = document.getElementById('selectedBadge');
+    badge.className = 'selected-badge';
+    badge.innerHTML = `✦ ${title}`;
+
+    // Scroll to form
+    document.querySelector('.form-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function openPreview(title, url, id) {
+    currentModalId = id;
+    currentModalTitle = title;
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('previewFrame').src = url;
+    document.getElementById('modalOverlay').classList.add('open');
+    setSize('desktop');
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('open');
+    document.getElementById('previewFrame').src = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  function setSize(size) {
+    const shell = document.getElementById('iframeShell');
+    shell.className = `iframe-shell ${size}`;
+    document.getElementById('btnDesktop').className = 'size-btn' + (size === 'desktop' ? ' active' : '');
+    document.getElementById('btnMobile').className  = 'size-btn' + (size === 'mobile'  ? ' active' : '');
+  }
+
+  function selectFromModal() {
+    selectCard(currentModalId, currentModalTitle);
+    closeModal();
+  }
+
+  function submitForm() {
+    if (!selectedId) {
+      alert('Please select a website design first.');
+      document.querySelector('.cards-grid').scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+    const changes = document.getElementById('changes').value.trim();
+    const budget  = document.getElementById('budget').value.trim();
+    if (!changes) {
+      alert('Please describe the changes you want.');
+      document.getElementById('changes').focus();
+      return;
+    }
+    if (!budget) {
+      alert('Please enter your expected budget.');
+      document.getElementById('budget').focus();
+      return;
+    }
+
+    // In production, wire this to a backend or email service.
+    console.log({ selectedId, selectedTitle, changes, budget });
+
+    document.getElementById('mainForm').style.display = 'none';
+    document.getElementById('successBox').classList.add('show');
+  }
+
+  function resetForm() {
+    selectedId = null;
+    selectedTitle = '';
+    document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
+    document.getElementById('selectedBadge').className = 'no-selection';
+    document.getElementById('selectedBadge').innerHTML = '⬆ Select a design above first';
+    document.getElementById('changes').value = '';
+    document.getElementById('budget').value = '';
+    document.getElementById('mainForm').style.display = 'block';
+    document.getElementById('successBox').classList.remove('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal();
+  });
+</script>
+
+</body>
+</html>
